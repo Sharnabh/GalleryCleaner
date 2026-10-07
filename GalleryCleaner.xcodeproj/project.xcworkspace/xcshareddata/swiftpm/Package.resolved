@@ -1,0 +1,15 @@
+{
+  "originHash" : "f3dc4f25c6b23eaa1d1ce9b71a8b2160b4f6e7e21481c852c0e94b945db6a86d",
+  "pins" : [
+    {
+      "identity" : "shimmerkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Sharnabh/ShimmerKit.git",
+      "state" : {
+        "revision" : "1a85b5f56b25d4dbdb435f61ce32e6a35d4ebc94",
+        "version" : "1.2.2"
+      }
+    }
+  ],
+  "version" : 3
+}
