@@ -37,27 +37,29 @@ struct AssetThumbnailView: View {
             onTap?()
         }) {
             ZStack(alignment: .bottomLeading) {
-                // Background thumbnail image
-                if let thumbnail = thumbnail {
-                    Image(uiImage: thumbnail)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-                        .aspectRatio(1, contentMode: .fill)
-                        .clipped()
-                } else {
-                    Rectangle()
-                        .fill(Color.Theme.cardBackground)
-                        .aspectRatio(1, contentMode: .fit)
-                        .overlay(
-                            ProgressView()
-                                .tint(.white.opacity(0.6))
-                        )
-                }
+                // Background thumbnail image strictly clamped to 1:1 square
+                Color.clear
+                    .aspectRatio(1, contentMode: .fit)
+                    .overlay(
+                        Group {
+                            if let thumbnail = thumbnail {
+                                Image(uiImage: thumbnail)
+                                    .resizable()
+                                    .scaledToFill()
+                            } else {
+                                Color.Theme.cardBackground
+                                    .overlay(
+                                        ProgressView()
+                                            .tint(.white.opacity(0.6))
+                                    )
+                            }
+                        }
+                    )
+                    .clipped()
 
                 // Overlay gradient for badge readability
                 LinearGradient(
-                    colors: [.clear, .black.opacity(0.65)],
+                    colors: [.clear, Color.black.opacity(0.75)],
                     startPoint: .center,
                     endPoint: .bottom
                 )
@@ -66,27 +68,31 @@ struct AssetThumbnailView: View {
                 HStack(spacing: 4) {
                     if item.fileSize > 0 {
                         Text(item.formattedSize)
-                            .font(.system(size: 11, weight: .semibold, design: .rounded))
+                            .font(.system(size: 10, weight: .bold, design: .rounded))
                             .foregroundColor(.white)
+                            .lineLimit(1)
+                            .fixedSize(horizontal: true, vertical: false)
                             .padding(.horizontal, 6)
-                            .padding(.vertical, 2)
-                            .background(Color.black.opacity(0.6))
+                            .padding(.vertical, 2.5)
+                            .background(Color.black.opacity(0.75))
                             .clipShape(Capsule())
                     }
 
-                    Spacer()
+                    Spacer(minLength: 2)
 
                     if item.mediaType == .video {
                         HStack(spacing: 3) {
                             Image(systemName: "video.fill")
-                                .font(.system(size: 9))
+                                .font(.system(size: 8))
                             Text(item.formattedDuration)
-                                .font(.system(size: 11, weight: .bold, design: .rounded))
+                                .font(.system(size: 10, weight: .bold, design: .rounded))
+                                .lineLimit(1)
+                                .fixedSize(horizontal: true, vertical: false)
                         }
                         .foregroundColor(.white)
                         .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(Color.black.opacity(0.6))
+                        .padding(.vertical, 2.5)
+                        .background(Color.black.opacity(0.75))
                         .clipShape(Capsule())
                     }
                 }
@@ -99,8 +105,8 @@ struct AssetThumbnailView: View {
                             Spacer()
                             ZStack {
                                 Circle()
-                                    .fill(isSelected ? Color.blue : Color.black.opacity(0.4))
-                                    .frame(width: 26, height: 26)
+                                    .fill(isSelected ? Color.blue : Color.black.opacity(0.45))
+                                    .frame(width: 24, height: 24)
                                     .overlay(
                                         Circle()
                                             .stroke(Color.white, lineWidth: 1.5)
@@ -108,7 +114,7 @@ struct AssetThumbnailView: View {
 
                                 if isSelected {
                                     Image(systemName: "checkmark")
-                                        .font(.system(size: 13, weight: .bold))
+                                        .font(.system(size: 12, weight: .bold))
                                         .foregroundColor(.white)
                                 }
                             }
@@ -118,13 +124,16 @@ struct AssetThumbnailView: View {
                     }
                 }
             }
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .aspectRatio(1, contentMode: .fit)
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(isSelected ? Color.blue : Color.white.opacity(0.08), lineWidth: isSelected ? 2.5 : 1)
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .stroke(isSelected ? Color.blue : Color.white.opacity(0.1), lineWidth: isSelected ? 2.5 : 1)
             )
+            .contentShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
         .buttonStyle(.plain)
+        .contentShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .onAppear {
             loadThumbnail()
         }

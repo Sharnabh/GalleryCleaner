@@ -183,7 +183,7 @@ struct SimilarPhotoDetectorService: Sendable {
 
         return MediaCluster(
             title: "Similar Shot Set #\(index)",
-            matchReason: "Apple Vision AI: \(similarityPercentage)% Visual Match (\(firstDateStr))",
+            matchReason: "\(similarityPercentage)% Match • \(firstDateStr)",
             items: rankedItems
         )
     }

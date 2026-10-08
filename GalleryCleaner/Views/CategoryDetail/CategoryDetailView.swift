@@ -142,12 +142,14 @@ struct CategoryDetailView: View {
                         Text("\(viewModel.items.count) items found")
                             .font(.system(size: 14, weight: .semibold, design: .rounded))
                             .foregroundColor(Color.Theme.secondaryText)
+                            .lineLimit(1)
 
                         let totalSize = viewModel.items.reduce(0) { $0 + $1.fileSize }
                         if totalSize > 0 {
                             Text(ByteFormatter.format(totalSize))
                                 .font(.system(size: 13, weight: .bold, design: .rounded))
                                 .foregroundColor(viewModel.category.accentColor)
+                                .lineLimit(1)
                         }
                     }
 
@@ -161,6 +163,7 @@ struct CategoryDetailView: View {
                                 .font(.system(size: 12))
                             Text(viewModel.isAllItemsSelected ? "Deselect All" : "Select All")
                                 .font(.system(size: 12, weight: .semibold, design: .rounded))
+                                .lineLimit(1)
                         }
                         .foregroundColor(.white)
                         .padding(.horizontal, 12)
@@ -172,6 +175,8 @@ struct CategoryDetailView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top, 10)
+                .padding(.bottom, 8)
+                .contentShape(Rectangle())
 
                 LazyVGrid(columns: gridColumns, spacing: 10) {
                     ForEach(viewModel.items) { item in
@@ -183,7 +188,8 @@ struct CategoryDetailView: View {
                                 viewModel.toggleSelection(for: item)
                             }
                         )
-                        .aspectRatio(1, contentMode: .fill)
+                        .clipped()
+                        .contentShape(RoundedRectangle(cornerRadius: 12))
                     }
                 }
                 .padding(.horizontal)
@@ -213,11 +219,12 @@ struct CategoryDetailView: View {
                         Text("\(totalClusters) Duplicate Sets Found")
                             .font(.system(size: 16, weight: .bold, design: .rounded))
                             .foregroundColor(.white)
+                            .lineLimit(1)
                         Spacer()
                     }
 
                     if totalReclaimable > 0 {
-                        HStack {
+                        HStack(spacing: 4) {
                             Image(systemName: "sparkles")
                                 .foregroundColor(Color.Theme.accentGreen)
                             Text("Potential Storage Savings: ")
@@ -228,6 +235,7 @@ struct CategoryDetailView: View {
                             Spacer()
                         }
                         .font(.system(size: 13))
+                        .lineLimit(1)
                     }
 
                     // Smart Select (Keep Best) & Select All Action Row
@@ -240,6 +248,7 @@ struct CategoryDetailView: View {
                                     .font(.system(size: 12, weight: .bold))
                                 Text(viewModel.isAllRedundantSelected ? "Best Kept" : "Auto-Select (Keep Best)")
                                     .font(.system(size: 12, weight: .bold, design: .rounded))
+                                    .lineLimit(1)
                             }
                             .foregroundColor(.white)
                             .padding(.horizontal, 14)
@@ -266,6 +275,7 @@ struct CategoryDetailView: View {
                                     .font(.system(size: 12))
                                 Text(viewModel.isAllItemsSelected ? "Deselect All" : "Select All")
                                     .font(.system(size: 12, weight: .semibold, design: .rounded))
+                                    .lineLimit(1)
                             }
                             .foregroundColor(.white)
                             .padding(.horizontal, 12)
@@ -281,7 +291,8 @@ struct CategoryDetailView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top, 12)
-                .padding(.bottom, 6)
+                .padding(.bottom, 8)
+                .contentShape(Rectangle())
 
                 LazyVStack(spacing: 14) {
                     ForEach(viewModel.clusters) { cluster in

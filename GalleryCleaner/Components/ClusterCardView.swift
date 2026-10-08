@@ -22,29 +22,33 @@ struct ClusterCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             // Header info
-            HStack(alignment: .top, spacing: 8) {
+            HStack(alignment: .center, spacing: 8) {
                 VStack(alignment: .leading, spacing: 3) {
                     Text(cluster.title)
                         .font(.system(size: 15, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
+                        .lineLimit(1)
 
                     Text(cluster.matchReason)
                         .font(.system(size: 12, weight: .medium))
                         .foregroundColor(Color.Theme.secondaryText)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
                 }
 
-                Spacer()
+                Spacer(minLength: 8)
 
                 // Auto Select duplicates shortcut button
                 Button(action: onAutoSelectDuplicates) {
                     HStack(spacing: 4) {
                         Image(systemName: isAllExceptFirstSelected ? "checkmark.circle.fill" : "wand.and.stars")
-                            .font(.system(size: 11))
+                            .font(.system(size: 10))
                         Text(isAllExceptFirstSelected ? "Selected" : "Select Duplicates")
                             .font(.system(size: 11, weight: .semibold, design: .rounded))
+                            .lineLimit(1)
                     }
                     .foregroundColor(isAllExceptFirstSelected ? .white : Color.Theme.duplicatePhotos)
-                    .padding(.horizontal, 10)
+                    .padding(.horizontal, 9)
                     .padding(.vertical, 6)
                     .background(
                         isAllExceptFirstSelected
@@ -101,6 +105,7 @@ struct ClusterCardView: View {
                 Text("\(cluster.items.count) files (\(cluster.formattedTotalSize))")
                     .font(.system(size: 11, weight: .medium))
                     .foregroundColor(Color.Theme.secondaryText)
+                    .lineLimit(1)
 
                 Spacer()
 
@@ -110,6 +115,7 @@ struct ClusterCardView: View {
                             .font(.system(size: 10))
                         Text("Reclaim \(cluster.formattedReclaimableSize)")
                             .font(.system(size: 11, weight: .semibold, design: .rounded))
+                            .lineLimit(1)
                     }
                     .foregroundColor(Color.Theme.accentGreen)
                 }

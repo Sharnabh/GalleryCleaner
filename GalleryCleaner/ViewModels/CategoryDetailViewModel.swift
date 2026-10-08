@@ -75,21 +75,25 @@ final class CategoryDetailViewModel: ObservableObject {
     }
 
     private func loadScreenshots() async {
-        let assets = PhotoLibraryService.shared.fetchScreenshots()
-        let mapped = assets.map { asset in
-            let size = PhotoLibraryService.shared.fileSize(for: asset)
-            return MediaItem(asset: asset, fileSize: size)
-        }
+        let mapped = await Task.detached(priority: .userInitiated) {
+            let assets = PhotoLibraryService.shared.fetchScreenshots()
+            return assets.map { asset in
+                let size = PhotoLibraryService.shared.fileSize(for: asset)
+                return MediaItem(asset: asset, fileSize: size)
+            }
+        }.value
         self.items = mapped
         self.scanProgress = 1.0
     }
 
     private func loadVideos() async {
-        let assets = PhotoLibraryService.shared.fetchVideos()
-        let mapped = assets.map { asset in
-            let size = PhotoLibraryService.shared.fileSize(for: asset)
-            return MediaItem(asset: asset, fileSize: size)
-        }
+        let mapped = await Task.detached(priority: .userInitiated) {
+            let assets = PhotoLibraryService.shared.fetchVideos()
+            return assets.map { asset in
+                let size = PhotoLibraryService.shared.fileSize(for: asset)
+                return MediaItem(asset: asset, fileSize: size)
+            }
+        }.value
         self.items = mapped
         self.scanProgress = 1.0
     }

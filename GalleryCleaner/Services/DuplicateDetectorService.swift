@@ -73,7 +73,7 @@ struct DuplicateDetectorService: Sendable {
                     let rankedItems = QualityEvaluatorService.shared.rankBestItems(in: group)
                     let cluster = MediaCluster(
                         title: "Exact Duplicate Set #\(clusterIndex)",
-                        matchReason: "100% Identical Resolution (\(rankedItems[0].resolutionString)) & Size (\(rankedItems[0].formattedSize))",
+                        matchReason: "Identical \(rankedItems[0].resolutionString) • \(rankedItems[0].formattedSize)",
                         items: rankedItems
                     )
                     clusters.append(cluster)
@@ -117,7 +117,7 @@ struct DuplicateDetectorService: Sendable {
                 let rankedItems = QualityEvaluatorService.shared.rankBestItems(in: items)
                 let cluster = MediaCluster(
                     title: "Duplicate Video Group #\(clusterIndex)",
-                    matchReason: "Identical Duration (\(rankedItems[0].formattedDuration)) & Size (\(rankedItems[0].formattedSize))",
+                    matchReason: "Identical \(rankedItems[0].formattedDuration) • \(rankedItems[0].formattedSize)",
                     items: rankedItems
                 )
                 clusters.append(cluster)
